@@ -46,6 +46,7 @@ const makeData = (results) => {
     }));
     const policyInfos = results.map((result, index) => ({
       policyNumber: result.policy_number,
+      premiumAmount: result.premium_amount,
       policyStartDate: new Date(result.policy_start_date),
       policyEndDate: new Date(result.policy_end_date),     
     }));

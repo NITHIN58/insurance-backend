@@ -1,14 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const os = require('os-utils');
+
 dotenv.config({
     path: './config.env'
 });
 
-// process.on('uncaughtException', err => {
-//     console.log('UNCAUGHT EXCEPTION!!! shutting down...');
-//     console.log(err.name, err.message);
-//     process.exit(1);
-// });
+
 
 const app = require('./app');
 
@@ -31,3 +29,12 @@ process.on('unhandledRejection', err => {
     process.exit(1);
     
 });
+
+setInterval(() => {
+    os.cpuUsage((v) => {
+      if (v > 0.7) {
+        console.log('CPU usage high. Restarting server...');
+        process.exit(1);
+      }
+    });
+  }, 10000);
