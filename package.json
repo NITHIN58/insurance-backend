@@ -1,0 +1,27 @@
+{
+  "name": "insurance-backend",
+  "version": "1.0.0",
+  "description": "fetching data from xlsv/csv",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nithin Biju",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.2",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
