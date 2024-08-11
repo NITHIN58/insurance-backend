@@ -33,13 +33,13 @@ process.on('unhandledRejection', err => {
 
 
 //Track real-time CPU utilization of the node server and on 70% usage restart the server.
-setInterval(() => {
-    os.cpuUsage((v) => {
-        console.log("CPU Usage: " + (v * 100).toFixed(2) + "%");
-        if ((v * 100).toFixed(2) > 70) {
-            console.log('CPU Usage is high. Restarting...');
-            process.exit(0);
+// setInterval(() => {
+//     os.cpuUsage((v) => {
+//         console.log("CPU Usage: " + (v * 100).toFixed(2) + "%");
+//         if ((v * 100).toFixed(2) > 70) {
+//             console.log('CPU Usage is high. Restarting...');
+//             process.exit(0);
             
-        }
-    });
-}, 10000)
+//         }
+//     });
+// }, 10000)
