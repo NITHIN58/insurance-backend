@@ -20,6 +20,15 @@ mongoose.connect(database)
     parentPort.postMessage({ status: "error", error: err.message });
   });
 
+
+/**
+ * This function takes an array of results and transforms it into 
+ * objects that can be used to insert data into the database.
+ *
+ * @param {Array} results - An array of objects containing data to be processed.
+ * @return {Object} An object containing arrays of userData, userAccounts, 
+ * policyCategories, policyCarriers, policyInfos, and agents.
+ */
 const makeData = (results) => {
   console.log("results", results[0]);
     const userData = results.map((result) => ({
@@ -77,24 +86,24 @@ const makeData = (results) => {
   const uploadData = async (data) => {
     const { userData, userAccounts, policyCategories, policyCarriers, policyInfos, agents } = makeData(data);
 
-  // Insert users, accounts, categories, and carriers first to get their _ids
-  const insertedUsers = await UploadModel.User.insertMany(userData);
-  const insertedAccounts = await UploadModel.UserAccount.insertMany(userAccounts);
-  const insertedCategories = await UploadModel.PolicyCategory.insertMany(policyCategories);
-  const insertedCarriers = await UploadModel.PolicyCarrier.insertMany(policyCarriers);
-  const insertedAgents = await UploadModel.Agent.insertMany(agents);
+    // Insert users, accounts, categories, and carriers first to get their _ids
+    const insertedUsers = await UploadModel.User.insertMany(userData);
+    const insertedAccounts = await UploadModel.UserAccount.insertMany(userAccounts);
+    const insertedCategories = await UploadModel.PolicyCategory.insertMany(policyCategories);
+    const insertedCarriers = await UploadModel.PolicyCarrier.insertMany(policyCarriers);
+    const insertedAgents = await UploadModel.Agent.insertMany(agents);
 
-  // Now that we have the inserted documents, map them to their original data
-  const policyInfosWithIds = policyInfos.map((info, index) => ({
-    ...info,
-    categoryId: insertedCategories[index]._id,
-    companyId: insertedCarriers[index]._id,
-    userId: insertedUsers[index]._id,
-    agentId: insertedAgents[index]._id, // Assuming you're storing the agent reference as well
-  }));
+    // Now that we have the inserted documents, map them to their original data
+    const policyInfosWithIds = policyInfos.map((info, index) => ({
+      ...info,
+      categoryId: insertedCategories[index]._id,
+      companyId: insertedCarriers[index]._id,
+      userId: insertedUsers[index]._id,
+      agentId: insertedAgents[index]._id, // Assuming you're storing the agent reference as well
+    }));
 
-  // Insert policy information with the correct references
-  await UploadModel.PolicyInfo.insertMany(policyInfosWithIds);
+    // Insert policy information with the correct references
+    await UploadModel.PolicyInfo.insertMany(policyInfosWithIds);
   };
 
   (async () => {
